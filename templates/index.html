@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Linux Monitor{% endblock %}
+{% block header_text %}Linux Monitor{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    
+    <div class="row justify-content-between">
+        <div class="col-lg-4">
+            <div class="row">
+                <div class="col-12" style="text-align: center;margin-bottom: 50px;">
+                        <h4 class="display-4">Memory Overview (Gb)</h4>
+                </div>
+                  
+            </div>
+            <div id="common">
+            </div>
+        </div>
+        <div class="col-lg-5">
+                <div class="row">
+                        <div class="col-12" style="text-align: center;margin-bottom: 50px;">
+                                <h4 class="display-4">Usage (Gb)</h4>
+                        </div>
+                    </div>
+            <div id="mem">
+            </div>
+            </div>
+        <div class="col-lg-3">
+                <div class="row">
+                        <div class="col-12" style="text-align: center;margin-bottom: 50px;">
+                                <h4 class="display-4">Virtual (Gb)</h4>
+                        </div>
+                    </div>
+            <div>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                             VmallocTotal
+                              <span id="VmallocTotal" class="badge badge-primary badge-pill">0</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                            VmallocUsed
+                              <span id="VmallocUsed"  class="badge badge-primary badge-pill">0</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                VmallocChunk
+                              <span id="VmallocChunk" class="badge badge-primary badge-pill">0</span>
+                        </li>
+                    </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

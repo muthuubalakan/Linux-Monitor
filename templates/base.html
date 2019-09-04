@@ -26,15 +26,15 @@
 					<i class="material-icons" style="margin-right: 4px;">
 							desktop_windows
 							</i>
-					<a class="navbar-brand" href="#">
+					<a class="navbar-brand" href="/#">
 							Linux Monitor</a>
 					<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 					  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 						<li class="nav-item active">
-						  <a class="nav-link" href="#">Memory <span class="sr-only">(current)</span></a>
+						  <a class="nav-link" id="mem-link" onclick="this.style.color='#4285f4'" href="/#">Memory</a>
 						</li>
 						<li class="nav-item">
-						  <a class="nav-link" href="#">Runnig process</a>
+						  <a class="nav-link" onclick="this.style.color='red'" id="process-link" href="process">Running process</a>
 						</li>
 						<li class="mr-sm-2">
 								{% if user.is_authenticated %}

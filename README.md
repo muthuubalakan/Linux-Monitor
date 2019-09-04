@@ -8,7 +8,11 @@ Web Socket based Real-Time monitor to track linux machine. Linux monitor display
 
 Linux monitor is a complete Django application which uses Django Channels to make Asynchronous web socket connection.
 
-![alt text](https://github.com/muthuubalakan/Linux-Monitor/blob/master/docs/app.PNG)
+**Memory**
+![alt text](https://github.com/muthuubalakan/Linux-Monitor/blob/master/docs/mem.PNG)
+
+**Process**
+![alt text](https://github.com/muthuubalakan/Linux-Monitor/blob/master/docs/process.PNG)
 
 ## Installation
 ```bash

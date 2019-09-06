@@ -38,6 +38,7 @@ class LinCPU:
         assert data, (
             'Cannot get memory info.'
         )
+        
         return {'common': common, 'mem_info': data, 'virtual': virtualmem}
 
     def kb_to_gb(self, amount):

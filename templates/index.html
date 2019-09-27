@@ -5,49 +5,72 @@
 
 {% block content %}
 <div class="container-fluid">
+    <div class="row uptime">
+        <div class="col-12">
+                <div class="panel-group">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                              <button type="button" class="btn btn-outline-primary" data-toggle="collapse" data-target="#collapse1">General</button>
+                            
+                          </div>
+                          <div id="collapse1" class="panel-collapse collapse">
+                            <ul class="list-group">
+                              <li class="list-group-item">
+                                    Uptime <span class="badge badge-light">4</span>
+                    
+                              </li>
+        
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+        </div>
+    </div>
+
     
-    <div class="row justify-content-between">
+    <div class="row justify-content-between" style="margin-top: 10px;">
         <div class="col-lg-4">
             <div class="row">
                 <div class="col-12" style="text-align: center;margin-bottom: 50px;">
-                        <h4 class="display-4">Memory Overview (Gb)</h4>
+                        <h4 class="display-4" style="font-size: 26px !important;">Memory Overview (Gb)</h4>
                 </div>
                   
             </div>
             <div id="common">
             </div>
+            <div class="row">
+                <div class="col-12" style="text-align: center;margin-bottom: 50px;">
+                        <h4 class="display-4" style="font-size: 26px !important;">Virtual (Gb)</h4>
+                </div>
+            </div>
+    <div>
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                     VmallocTotal
+                      <span id="VmallocTotal" class="badge badge-primary badge-pill">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    VmallocUsed
+                      <span id="VmallocUsed"  class="badge badge-primary badge-pill">0</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        VmallocChunk
+                      <span id="VmallocChunk" class="badge badge-primary badge-pill">0</span>
+                </li>
+            </ul>
+    </div>
         </div>
         <div class="col-lg-5">
                 <div class="row">
                         <div class="col-12" style="text-align: center;margin-bottom: 50px;">
-                                <h4 class="display-4">Usage (Gb)</h4>
+                                <h4 class="display-4" style="font-size: 26px !important;">Usage (Gb)</h4>
                         </div>
                     </div>
             <div id="mem">
             </div>
             </div>
         <div class="col-lg-3">
-                <div class="row">
-                        <div class="col-12" style="text-align: center;margin-bottom: 50px;">
-                                <h4 class="display-4">Virtual (Gb)</h4>
-                        </div>
-                    </div>
-            <div>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                             VmallocTotal
-                              <span id="VmallocTotal" class="badge badge-primary badge-pill">0</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                            VmallocUsed
-                              <span id="VmallocUsed"  class="badge badge-primary badge-pill">0</span>
-                            </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                VmallocChunk
-                              <span id="VmallocChunk" class="badge badge-primary badge-pill">0</span>
-                        </li>
-                    </ul>
-            </div>
+
         </div>
 
     </div>

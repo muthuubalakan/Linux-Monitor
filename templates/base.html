@@ -30,9 +30,6 @@
 							Linux Monitor</a>
 					<div class="collapse navbar-collapse" id="navbarTogglerDemo03">
 					  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-						<li class="nav-item active">
-						  <a class="nav-link" id="mem-link" onclick="this.style.color='#4285f4'" href="/#">Memory</a>
-						</li>
 						<li class="nav-item">
 						  <a class="nav-link" onclick="this.style.color='red'" id="process-link" href="process">Running process</a>
 						</li>
@@ -46,13 +43,7 @@
 				  </nav>
 		<div class="container-fluid">
 			<div class="row">
-				<div class="col-lg-2">
-						<span style="font-size: 18px; margin-top: 20px;" class="badge badge-info">Status <b>Live</b></span>
-
-				</div>
-			</div>
-			<div class="row">
-			<div class="col-12" style="margin-top: 70px;">
+			<div class="col-12" style="margin-top: 20px;">
 					{% block content %}
 					{% endblock %}
 				{% block extra_body %}{% endblock %}

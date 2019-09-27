@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta, datetime
 
 
 class LinCPU:
@@ -65,6 +66,7 @@ class LinCPU:
         return process
 
     def get_process(self):
+        self.get_uptime()
         data = []
         for pid in os.listdir('/proc'):
             if pid.isdigit():
@@ -73,3 +75,12 @@ class LinCPU:
                 except Exception:
                     pass
         return data
+    
+    def get_uptime(self):
+        with open('/proc/uptime') as uptime:
+            return self._uptime(uptime)
+    
+    def _uptime(self, uptime):
+        sys_time, idle, *rest = uptime.read().split()
+        import time
+        a = time.strftime('%m/%d/%Y %H:%M:%S', time.gmtime(float(sys_time)/1000))

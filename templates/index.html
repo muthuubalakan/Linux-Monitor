@@ -14,10 +14,21 @@
                             
                           </div>
                           <div id="collapse1" class="panel-collapse collapse">
+            
                             <ul class="list-group">
                               <li class="list-group-item">
-                                    Uptime <span class="badge badge-light">4</span>
-                    
+                                  <div class="container-fluid">
+                                      <div class="row">
+                                          <div class="col-4">
+                                                <button  data-toggle="popover"   data-placement='above' title="Popover Title" type="button" class="btn btn-primary">
+                                                        Partitions <span id="total-partition" class="badge badge-light">0</span>
+                                                    </button>
+                                                    <div id="popover_content_wrapper" style="display: none">
+                                                            <div>This is your div content</div>
+                                                          </div>
+                                          </div>
+                                      </div>
+                                  </div>
                               </li>
         
                             </ul>
@@ -28,8 +39,8 @@
     </div>
 
     
-    <div class="row justify-content-between" style="margin-top: 10px;">
-        <div class="col-lg-4">
+    <div class="row justify-content-between out-linediv" style="margin-top: 10px;">
+        <div class="col-lg-4" >
             <div class="row">
                 <div class="col-12" style="text-align: center;margin-bottom: 50px;">
                         <h4 class="display-4" style="font-size: 26px !important;">Memory Overview (Gb)</h4>
@@ -60,7 +71,7 @@
             </ul>
     </div>
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-5" style="border: 1px solid rgba(0,0,0,.125) !important;">
                 <div class="row">
                         <div class="col-12" style="text-align: center;margin-bottom: 50px;">
                                 <h4 class="display-4" style="font-size: 26px !important;">Usage (Gb)</h4>

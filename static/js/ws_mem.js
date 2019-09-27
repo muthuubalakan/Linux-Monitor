@@ -38,6 +38,9 @@ function createTable(){
             var common = data.common;
             var mem = data.mem_info;
             var vir = data.virtual;
+            var partitions = data.partitions;
+            console.log(partitions)
+            partition(partitions);
             plotCommonInfo(common);
             plotMemInfo(mem);
             virtualMem(vir);
@@ -70,7 +73,7 @@ function createTable(){
         var processLink = document.getElementById('process-link');
         var memLink = document.getElementById('mem-link');
     
-        memLink.onclick = ()=>{
+        memLink.onclick = function(){
             socket.send(JSON.stringify({
                 command: 'memory'
             }));
@@ -81,6 +84,13 @@ function createTable(){
                 command: 'process'
             }));
         };
+
+    
+    function partition(partitions){
+        var par = document.getElementById('total-partition');
+        console.log(par)
+        par.innerHTML = partitions.length;
+    }
 
 
     function plotCommonInfo(data){
@@ -109,11 +119,12 @@ function createTable(){
         var d =  [{
             values: values[1],
             labels: values[0],
+            name: "test",
             type: 'pie',
             // orientation: 'v',
         }];
         var layout = {
-            showlegend: false,
+            showlegend: true,
             margin:{
                 l:0,
                 t:0

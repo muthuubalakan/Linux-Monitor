@@ -40,7 +40,7 @@ class LinCPU:
             'Cannot get memory info.'
         )
         
-        return {'common': common, 'mem_info': data, 'virtual': virtualmem}
+        return {'common': common, 'mem_info': data, 'virtual': virtualmem, 'partitions': self.partitions()}
 
     def kb_to_gb(self, amount):
         space, unit = amount.split()
@@ -84,3 +84,18 @@ class LinCPU:
         sys_time, idle, *rest = uptime.read().split()
         import time
         a = time.strftime('%m/%d/%Y %H:%M:%S', time.gmtime(float(sys_time)/1000))
+        
+    def partitions(self):
+        with open('/proc/partitions') as f:
+            return self.get_partitions(f)
+        
+    def get_partitions(self, f):
+        resp = []
+        for line in f:
+            if not 'block' in line:
+                try:
+                    major, minor, mem, name = line.split()
+                    resp.append({'name':name, 'mem':mem})
+                except Exception:
+                    pass
+        return resp

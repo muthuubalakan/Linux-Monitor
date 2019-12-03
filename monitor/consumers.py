@@ -5,7 +5,7 @@ import asyncio
 import pwd
 
 
-TIME_INTERVAL = 5
+TIME_INTERVAL = 1
 cpu = LinCPU()
 
 class MemoryinfoConsumer(AsyncJsonWebsocketConsumer):
@@ -38,16 +38,7 @@ class MemoryinfoConsumer(AsyncJsonWebsocketConsumer):
             await asyncio.sleep(TIME_INTERVAL)
         
     async def check_pids(self, data):
-        resp = []
-        for item in data:
-            obj = {}
-            for key, value in item.items():
-                if key.lower() == 'uid':
-                    obj['user'] = self.get_username(value)
-                obj[key] = value
-                
-            resp.append(obj)
-        return resp
+        return data
     
     def get_username(self, uid):
         uid = int(uid)

@@ -1,8 +1,8 @@
-$(function () {
+window.onload = $(function () {
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     var ws_path = ws_scheme + '://' + window.location.host + "/monitor/stream/";
     var socket = new ReconnectingWebSocket(ws_path);
-
+    var counter = 0;
     socket.onopen = function(){
         var pathname = window.location.pathname;
         var query = undefined;
@@ -39,12 +39,18 @@ function createTable(){
             var mem = data.mem_info;
             var vir = data.virtual;
             var partitions = data.partitions;
-            console.log(partitions)
+            var uptime = data.uptime;
+            var swap  = data.swap;
+            var cpuload = data.cpuload;
+            cpuloadTimeseriesPlot(cpuload);
+            setUptime(uptime);
             partition(partitions);
             plotCommonInfo(common);
-            plotMemInfo(mem);
-            virtualMem(vir);
+            plotVirtualInfo(vir);
+            otherMemInfo(mem);
+            plotSwap(swap);
         }
+
         else if (pathname == '/process'){
 
             var data = message.data;
@@ -55,11 +61,19 @@ function createTable(){
 
             try {
                 data.forEach(element => {
-                    body += '<tr>' +
-		       '<td>' + element['Pid'] + '</td>' +
+
+               if (element['username'] == 'root'){
+                body += '<tr style="background: #aebfbe; color: black;">'
+
+               }
+               else{
+                body += '<tr>'; 
+               }
+               
+               body += '<td>' + element['Pid'] + '</td>' +
 		       '<td>' + element['Name'] + '</td>' +
                '<td>' + element['State'] + '</td>' +
-               '<td>' + element['user'] + '</td>' 
+               '<td>' + element['username'] + '</td></tr>' 
                 });
                 var footer = '</tbody></table>';
                 pdiv.innerHTML = tableStr + body + footer;
@@ -71,13 +85,13 @@ function createTable(){
         }
     
         var processLink = document.getElementById('process-link');
-        var memLink = document.getElementById('mem-link');
+        // var memLink = document.getElementById('mem-link');
     
-        memLink.onclick = function(){
-            socket.send(JSON.stringify({
-                command: 'memory'
-            }));
-        };
+        // memLink.onclick = ()=> {
+        //     socket.send(JSON.stringify({
+        //         command: 'memory'
+        //     }));
+        // };
     
         processLink.onclick = ()=>{
             socket.send(JSON.stringify({
@@ -88,10 +102,14 @@ function createTable(){
     
     function partition(partitions){
         var par = document.getElementById('total-partition');
-        console.log(par)
         par.innerHTML = partitions.length;
     }
 
+    function setUptime(upt){
+
+        var uptEl = document.getElementById('uptime');
+        uptEl.innerHTML = upt;
+    }
 
     function plotCommonInfo(data){
         var values = getMemOverview(data);
@@ -105,7 +123,9 @@ function createTable(){
             showlegend: true,
             margin:{
                 l:0,
-                t:0
+                t:0,
+                r:0,
+                b:0
             }
         };
 
@@ -113,13 +133,60 @@ function createTable(){
     };
 
 
-    function plotMemInfo(data){
-        var values = getXandY(data);
-        var memEl = document.getElementById('mem');
+    function plotSwap(data){
+        var values = getSwapOverview(data);
+        var commonEl = document.getElementById('swap');
         var d =  [{
             values: values[1],
             labels: values[0],
-            name: "test",
+            type: 'pie'}];
+
+        var layout = {
+            showlegend: true,
+            margin:{
+                l:0,
+                t:0,
+                r:0,
+                b:0
+            }
+        };
+
+        Plotly.newPlot(commonEl, d, layout, {displayModeBar: false});
+    };
+
+    function cpuloadTimeseriesPlot(data){
+        var commonEl = document.getElementById('timeseries');
+        var d =  [{
+            y: [data['load']],
+            type: 'line'}];
+
+        var layout = {
+            showlegend: false,
+  
+        };
+
+        Plotly.plot(commonEl, d, layout, {displayModeBar: false});
+
+        setInterval(function(){
+            Plotly.extendTraces(commonEl, {y:[[data['load']]]}, [0]);
+            counter++;
+            if (counter > 500) {
+                Plotly.relayout(
+                    commonEl, {
+                        xaxis: {
+                            range: [counter-500, counter]
+                        }
+                    });
+            } });
+    };
+
+
+    function plotVirtualInfo(data){
+        var values = getVirtualOverview(data);
+        var memEl = document.getElementById('virtual');
+        var d =  [{
+            values: values[1],
+            labels: values[0],
             type: 'pie',
             // orientation: 'v',
         }];
@@ -127,43 +194,44 @@ function createTable(){
             showlegend: true,
             margin:{
                 l:0,
-                t:0
+                t:0,
+                r:0,
+                b:0
             }
         };
 
         Plotly.newPlot( memEl, d, layout, {displayModeBar: false});
+    
     }
 
-    function virtualMem(data){
-        try {
-            Object.keys(data).forEach(function(key){
-                document.getElementById(key).innerHTML = data[key];
-            });
-        } catch (error) {
-            
-        }
+    function otherMemInfo(data){
+        for (var property in data) {
+  
+            if (data.hasOwnProperty(property)) {
+                var El = document.getElementById(property);
+                if (El) {
+                    El.innerHTML= data[property] + ' Gb';
+                }
+                }
+              }        
     }
 
     function getMemOverview(obj){
-        var free = obj['MemFree'];
-        var used = obj['MemTotal'] - free;
+        var free = obj['free'];
+        var used = obj['used'];
         return [['Used', 'Available'], [used, free]];
     }
-    
-    function getXandY(obj){
-        var x = [];
-        var y = [];
-        try {
-            Object.keys(obj).forEach(function(key){
-                x.push(key);
-                y.push(obj[key]);
-            });
-            
-        } catch (error) {
-            
-        }
 
-        return [x, y];
+    function getSwapOverview(obj){
+        var free = obj['SwapFree'];
+        var used = obj['SwapTotal'] - free;
+        return [['Used', 'Available'], [used, free]];
+    }
+
+    function getVirtualOverview(obj){
+        var free = obj['VmallocUsed'];
+        var used = obj['VmallocTotal'] - free;
+        return [['Used', 'Available'], [used, free]];
     }
 }
 });
